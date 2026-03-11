@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LA FAMILIA</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Montserrat', sans-serif;background:#fff;color:#111;}
+
+/* NAVBAR */
+.navbar{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:25px 60px;border-bottom:1px solid #eee;
+}
+.brand{display:flex;align-items:center;gap:12px;font-family:'Playfair Display', serif;font-size:26px;letter-spacing:3px;}
+.brand img{width:40px;height:40px;object-fit:cover;border-radius:50%;}
+.cart-btn{cursor:pointer;position:relative;}
+.cart-count{position:absolute;top:-8px;right:-10px;background:black;color:white;font-size:11px;padding:3px 6px;border-radius:50%;}
+
+/* HERO */
+.hero{position:relative;width:100%;height:500px;overflow:hidden;margin-bottom:40px;}
+.hero img{width:100%;height:100%;object-fit:cover;filter:brightness(70%);}
+.hero-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;color:white;}
+.hero-text h1{font-family:'Playfair Display', serif;font-size:60px;letter-spacing:4px;margin-bottom:10px;}
+.hero-text p{font-size:22px;letter-spacing:2px;}
+
+/* PRODUCTS */
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:40px;padding:0 60px 80px 60px;}
+.product{position:relative;cursor:pointer;}
+.product-img{width:100%;height:300px;object-fit:cover;transition:0.3s;}
+.product-img:hover{opacity:0.85;}
+.price-tag{position:absolute;top:10px;left:10px;background:black;color:white;padding:5px 10px;font-size:14px;font-weight:bold;border-radius:4px;}
+.product-name{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.7);color:white;padding:5px 12px;font-size:16px;font-weight:bold;border-radius:4px;width:calc(100% - 20px);text-align:center;}
+
+
+/* MODAL */
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;justify-content:center;align-items:center;z-index:3000;}
+.modal-content{background:white;width:420px;padding:25px;position:relative;}
+.close{position:absolute;top:10px;right:15px;cursor:pointer;font-size:18px;}
+.modal-main-img{width:100%;height:350px;object-fit:cover;margin-bottom:10px;}
+.thumbnail-row{display:flex;gap:10px;margin-bottom:15px;}
+.thumbnail-row img{width:48%;height:100px;object-fit:cover;cursor:pointer;}
+select,input{width:100%;padding:8px;margin:8px 0;border:1px solid #ccc;}
+.add-btn{width:100%;padding:10px;border:1px solid black;background:white;cursor:pointer;}
+.add-btn:hover{background:black;color:white;}
+
+/* CART */
+.cart-panel{position:fixed;top:0;right:-400px;width:380px;height:100%;background:white;box-shadow:-5px 0 30px rgba(0,0,0,0.2);padding:30px;transition:0.4s ease;z-index:2000;overflow-y:auto;}
+.cart-panel.active{right:0;}
+.back-btn{background:none;border:none;font-size:14px;margin-bottom:20px;cursor:pointer;}
+.cart-item{margin-bottom:15px;border-bottom:1px solid #eee;padding-bottom:10px;}
+.remove{color:red;cursor:pointer;font-size:12px;}
+.total{margin-top:20px;font-weight:600;}
+.checkout-btn{margin-top:20px;padding:12px;width:100%;background:black;color:white;border:none;cursor:pointer;}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="brand">
+        <img src="lafamilia logo.png">
+        LA FAMILIA
+    </div>
+    <div class="cart-btn" onclick="toggleCart()">
+        BAG
+        <span class="cart-count" id="cart-count">0</span>
+    </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+    <img src="LA FAMILIA copy.png">
+    <div class="hero-text">
+        <h1></h1>
+        <p></p>
+    </div>
+</div>
+
+<!-- PRODUCTS -->
+<div class="products">
+
+<div class="product" onclick="openModal('Grab Tee',250,
+'all.png',
+'LA FAMILIA.png')">
+<img src="all.png" class="product-img">
+<div class="price-tag">GHS 250</div>
+<div class="product-name">Grab Tee</div>
+</div>
+
+<div class="product" onclick="openModal('P. Jersey',350,
+'jerseyfront1.png',
+'jerseyback.jpeg')">
+<img src="jerseyfront1.png" class="product-img">
+<div class="price-tag">GHS 350</div>
+<div class="product-name">P. Jersey</div>
+</div>
+
+<div class="product" onclick="openModal('Pieces Of Jeans Tee',250,
+'jeansfront.png',
+'jeans.jpeg')">
+<img src="jeans.jpeg" class="product-img">
+<div class="price-tag">GHS 250</div>
+<div class="product-name">Pieces Of Jeans Tee</div>
+</div>
+
+<div class="product" onclick="openModal('Unity Hoodie',300,
+'hoodyfront.png',
+'hoodyback.png')">
+<img src="hoodyback.png" class="product-img">
+<div class="price-tag">GHS 300</div>
+<div class="product-name">Unity Hoodie</div>
+</div>
+
+<div class="product" onclick="openModal('Fashion Tee',250,
+'shirt front.jpg',
+'weird.jpeg')">
+<img src="weird.jpeg" class="product-img">
+<div class="price-tag">GHS 250</div>
+<div class="product-name">Fashion Tee</div>
+</div>
+
+<div class="product" onclick="openModal('Globe Tee',250,
+'blowfront.png',
+'globe.png')">
+<img src="globe.png" class="product-img">
+<div class="price-tag">GHS 250</div>
+<div class="product-name">Globe Tee</div>
+</div>
+
+<div class="product" onclick="openModal('Unity Tee',250,
+'blowfront.png',
+'blowback.png')">
+<img src="blowback.png" class="product-img">
+<div class="price-tag">GHS 250</div>
+<div class="product-name">Unity Tee</div>
+</div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="product-modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">✕</span>
+
+        <img id="modal-main-img" class="modal-main-img">
+
+        <div class="thumbnail-row">
+            <img id="thumb1">
+            <img id="thumb2">
+        </div>
+
+        <h3 id="modal-name"></h3>
+        <p id="modal-price"></p>
+
+        <select id="modal-size">
+            <option value="">Select Size</option>
+            <option>S</option>
+            <option>M</option>
+            <option>L</option>
+            <option>XL</option>
+            <option>2XL</option>
+            <option>3XL</option>
+        </select>
+
+        <input type="number" id="modal-qty" value="1" min="1">
+
+        <button class="add-btn" onclick="addFromModal()">Add to Bag</button>
+    </div>
+</div>
+
+<!-- CART PANEL -->
+<div class="cart-panel" id="cart-panel">
+    <h3>Your Bag</h3>
+    <button class="back-btn" onclick="toggleCart()">← Back to Shop</button>
+    <div id="cart-items"></div>
+    <div class="total" id="cart-total">Total: GHS 0</div>
+    <button class="checkout-btn" onclick="checkoutWhatsApp()">Checkout via WhatsApp</button>
+</div>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let currentProduct = {};
+
+function saveCart(){ localStorage.setItem("cart", JSON.stringify(cart)); }
+function toggleCart(){ document.getElementById("cart-panel").classList.toggle("active"); }
+
+function openModal(name, price, img1, img2){
+    currentProduct = {name, price};
+    document.getElementById("modal-name").innerText = name;
+    document.getElementById("modal-price").innerText = "GHS " + price;
+
+    document.getElementById("modal-main-img").src = img1;
+    document.getElementById("thumb1").src = img1;
+    document.getElementById("thumb2").src = img2;
+
+    document.getElementById("thumb1").onclick = () => document.getElementById("modal-main-img").src = img1;
+    document.getElementById("thumb2").onclick = () => document.getElementById("modal-main-img").src = img2;
+
+    document.getElementById("product-modal").style.display = "flex";
+}
+
+function closeModal(){ document.getElementById("product-modal").style.display = "none"; }
+
+function addFromModal(){
+    const size = document.getElementById("modal-size").value;
+    const qty = parseInt(document.getElementById("modal-qty").value);
+    if(size===""){alert("Select size");return;}
+    cart.push({name:currentProduct.name, price:currentProduct.price, size, qty});
+    saveCart(); updateCart(); closeModal();
+}
+
+function removeItem(index){ cart.splice(index,1); saveCart(); updateCart(); }
+
+function updateCart(){
+    const cartItems=document.getElementById("cart-items");
+    const cartCount=document.getElementById("cart-count");
+    const cartTotal=document.getElementById("cart-total");
+    cartItems.innerHTML=""; let total=0;
+    cart.forEach((item,index)=>{
+        total+=item.price*item.qty;
+        cartItems.innerHTML+=`
+        <div class="cart-item">
+            ${item.name}<br>
+            Size: ${item.size}<br>
+            Qty: ${item.qty}<br>
+            GHS ${item.price*item.qty}
+            <div class="remove" onclick="removeItem(${index})">Remove</div>
+        </div>`;
+    });
+    cartCount.innerText=cart.length;
+    cartTotal.innerText="Total: GHS "+total;
+}
+
+function checkoutWhatsApp(){
+    let message="Hello LA FAMILIA,%0A%0AI want to order:%0A"; let total=0;
+    cart.forEach(item=>{
+        message+=`${item.name} - Size ${item.size} - Qty ${item.qty} - GHS ${item.price*item.qty}%0A`;
+        total+=item.price*item.qty;
+    });
+    message+=`%0ATotal: GHS ${total}`;
+    window.open(`https://wa.me/233243735261?text=${message}`,"_blank");
+}
+
+updateCart();
+</script>
+
+</body>
+</html>
